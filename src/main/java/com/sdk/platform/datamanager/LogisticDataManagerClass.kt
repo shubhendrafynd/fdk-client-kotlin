@@ -7,6 +7,8 @@ import retrofit2.Response
 import okhttp3.ResponseBody
 import com.sdk.common.*
 import com.sdk.platform.*
+import com.sdk.platform.models.logistic.*
+import com.sdk.platform.apis.logistic.*
 
 
 
@@ -68,24 +70,12 @@ class LogisticDataManagerClass(val config: PlatformConfig, val unauthorizedActio
     }
     
     
-    suspend fun getCompanyStoreView()
+    suspend fun getCompanyStoreView(pageNumber: Int?=null, pageSize: Int?=null, zoneId: String?=null, enabled: String?=null, q: String?=null)
     : Deferred<Response<CompanyStoreView_Response>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             logisticApiList?.getCompanyStoreView(
-        companyId = config.companyId )
-        } else {
-            null
-        } 
-    }
-    
-    
-    suspend fun getZoneDataView(zoneId: String)
-    : Deferred<Response<GetSingleZoneDataViewResponse>>? {
-        
-        return if (config.oauthClient.isAccessTokenValid()) {
-            logisticApiList?.getZoneDataView(
-        companyId = config.companyId, zoneId = zoneId )
+        companyId = config.companyId, pageNumber = pageNumber, pageSize = pageSize, zoneId = zoneId, enabled = enabled, q = q )
         } else {
             null
         } 
@@ -98,6 +88,18 @@ class LogisticDataManagerClass(val config: PlatformConfig, val unauthorizedActio
         return if (config.oauthClient.isAccessTokenValid()) {
             logisticApiList?.updateZoneControllerView(
         zoneId = zoneId, companyId = config.companyId, body = body)
+        } else {
+            null
+        } 
+    }
+    
+    
+    suspend fun getZoneDataView(zoneId: String)
+    : Deferred<Response<GetSingleZoneDataViewResponse>>? {
+        
+        return if (config.oauthClient.isAccessTokenValid()) {
+            logisticApiList?.getZoneDataView(
+        companyId = config.companyId, zoneId = zoneId )
         } else {
             null
         } 

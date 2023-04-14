@@ -7,6 +7,8 @@ import retrofit2.Response
 import okhttp3.ResponseBody
 import com.sdk.common.*
 import com.sdk.platform.*
+import com.sdk.platform.models.user.*
+import com.sdk.platform.apis.user.*
 
 
 
@@ -144,10 +146,10 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
     }
     
     
-    suspend fun deleteSession(id: String)
+    suspend fun deleteSession(id: String, sessionId: String, reason: String)
     : Deferred<Response<SessionDeleteResponseSchema>>? {
         return if (config.oauthClient.isAccessTokenValid()) {
-                userApiList?.deleteSession(companyId = config.companyId , applicationId = applicationId , id = id )
+                userApiList?.deleteSession(companyId = config.companyId , applicationId = applicationId , id = id, sessionId = sessionId, reason = reason )
         } else {
             null
         }
@@ -164,10 +166,10 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
     }
     
     
-    suspend fun deleteActiveSessions(id: String)
+    suspend fun deleteActiveSessions(id: String, reason: String)
     : Deferred<Response<SessionDeleteResponseSchema>>? {
         return if (config.oauthClient.isAccessTokenValid()) {
-                userApiList?.deleteActiveSessions(companyId = config.companyId , applicationId = applicationId , id = id )
+                userApiList?.deleteActiveSessions(companyId = config.companyId , applicationId = applicationId , id = id, reason = reason )
         } else {
             null
         }
@@ -204,10 +206,10 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
     }
     
     
-    suspend fun getUserGroups(pageNo: String?=null, pageSize: String?=null, name: String?=null, status: String?=null)
+    suspend fun getUserGroups(pageNo: String?=null, pageSize: String?=null, name: String?=null, status: String?=null, groupUid: Int?=null)
     : Deferred<Response<UserGroupListResponseSchema>>? {
         return if (config.oauthClient.isAccessTokenValid()) {
-                userApiList?.getUserGroups(companyId = config.companyId , applicationId = applicationId , pageNo = pageNo, pageSize = pageSize, name = name, status = status )
+                userApiList?.getUserGroups(companyId = config.companyId , applicationId = applicationId , pageNo = pageNo, pageSize = pageSize, name = name, status = status, groupUid = groupUid )
         } else {
             null
         }

@@ -559,7 +559,7 @@ client.application("<APPLICATION_ID>").user.updateUser(userId: userId, body: bod
 | body | [UpdateUserRequestSchema](#UpdateUserRequestSchema) | yes | Request body |
 
 
-Update user
+Use this API to update user details, Note: Existing emails and phone numbers of user will be replaced directly if phone_numbers or emails field sent in request data.
 
 *Returned Response:*
 
@@ -708,7 +708,7 @@ Delete a session for a user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.deleteSession(id: id).safeAwait{ response, error->
+client.application("<APPLICATION_ID>").user.deleteSession(id: id, sessionId: sessionId, reason: reason).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -724,7 +724,9 @@ client.application("<APPLICATION_ID>").user.deleteSession(id: id).safeAwait{ res
 
 | Argument  |  Type  | Required | Description |
 | --------- | -----  | -------- | ----------- | 
-| id | String | yes | Session ID of a customer. |  
+| id | String | yes | ID of a customer. |   
+| sessionId | String | yes | Session ID of a customer. |   
+| reason | String | yes | Reason for deleting session. |  
 
 
 
@@ -854,7 +856,7 @@ Delete a list of all session for a user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.deleteActiveSessions(id: id).safeAwait{ response, error->
+client.application("<APPLICATION_ID>").user.deleteActiveSessions(id: id, reason: reason).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -870,7 +872,8 @@ client.application("<APPLICATION_ID>").user.deleteActiveSessions(id: id).safeAwa
 
 | Argument  |  Type  | Required | Description |
 | --------- | -----  | -------- | ----------- | 
-| id | String | yes | ID of a customer. |  
+| id | String | yes | ID of a customer. |   
+| reason | String | yes | Reason to delete sessions. |  
 
 
 
@@ -1021,6 +1024,11 @@ Success. Returns a JSON object containing the all the platform configurations. R
       "appId": "token_123"
     }
   },
+  "session_config": {
+    "duration": 30,
+    "type": "Days",
+    "is_rolling": false
+  },
   "delete_account_reasons": [
     {
       "reason_text": "test",
@@ -1156,6 +1164,11 @@ Success. Returns a JSON object with the updated platform configurations. Refer `
       "appId": "token_123"
     }
   },
+  "session_config": {
+    "duration": 30,
+    "type": "Days",
+    "is_rolling": false
+  },
   "delete_account_reasons": [
     {
       "reason_text": "test",
@@ -1264,7 +1277,7 @@ Get User Groups mathcing criteria
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getUserGroups(pageNo: pageNo, pageSize: pageSize, name: name, status: status).safeAwait{ response, error->
+client.application("<APPLICATION_ID>").user.getUserGroups(pageNo: pageNo, pageSize: pageSize, name: name, status: status, groupUid: groupUid).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1283,7 +1296,8 @@ client.application("<APPLICATION_ID>").user.getUserGroups(pageNo: pageNo, pageSi
 | pageNo | String? | no | page number for pagination result |   
 | pageSize | String? | no | page size for pagination result |   
 | name | String? | no | to seartch for User Groups which contains given string in their name |   
-| status | String? | no | to get User Groups with given status |  
+| status | String? | no | to get User Groups with given status |   
+| groupUid | Int? | no | to get User Groups with given uid |  
 
 
 
@@ -1636,6 +1650,7 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | action | String? |  yes  |  |
  | token | String? |  yes  |  |
  | registerToken | String? |  yes  |  |
+ | captchaCode | String? |  yes  |  |
 
 ---
 
@@ -2749,6 +2764,37 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | gender | String? |  yes  |  |
  | externalId | String? |  yes  |  |
  | meta | HashMap<String,Any>? |  yes  |  |
+ | phoneNumbers | ArrayList<[UserPhoneNumbers](#UserPhoneNumbers)>? |  yes  |  |
+ | emails | ArrayList<[UserEmails](#UserEmails)>? |  yes  |  |
+
+---
+
+
+ 
+ 
+ #### [UserEmails](#UserEmails)
+
+ | Properties | Type | Nullable | Description |
+ | ---------- | ---- | -------- | ----------- |
+ | active | Boolean? |  yes  |  |
+ | primary | Boolean? |  yes  |  |
+ | verified | Boolean? |  yes  |  |
+ | email | String? |  yes  |  |
+
+---
+
+
+ 
+ 
+ #### [UserPhoneNumbers](#UserPhoneNumbers)
+
+ | Properties | Type | Nullable | Description |
+ | ---------- | ---- | -------- | ----------- |
+ | active | Boolean? |  yes  |  |
+ | primary | Boolean? |  yes  |  |
+ | verified | Boolean? |  yes  |  |
+ | phone | String? |  yes  |  |
+ | countryCode | String? |  yes  |  |
 
 ---
 
@@ -2772,8 +2818,6 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | profilePicUrl | String? |  yes  |  |
  | username | String? |  yes  |  |
  | accountType | String? |  yes  |  |
- | debug | [Debug](#Debug)? |  yes  |  |
- | hasOldPasswordHash | Boolean? |  yes  |  |
  | id | String? |  yes  |  |
  | createdAt | String? |  yes  |  |
  | updatedAt | String? |  yes  |  |
@@ -2806,18 +2850,6 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | verified | Boolean? |  yes  |  |
  | email | String? |  yes  |  |
  | active | Boolean? |  yes  |  |
-
----
-
-
- 
- 
- #### [Debug](#Debug)
-
- | Properties | Type | Nullable | Description |
- | ---------- | ---- | -------- | ----------- |
- | source | String? |  yes  |  |
- | platform | String? |  yes  |  |
 
 ---
 

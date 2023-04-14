@@ -7,6 +7,8 @@ import retrofit2.Response
 import okhttp3.ResponseBody
 import com.sdk.common.*
 import com.sdk.platform.*
+import com.sdk.platform.models.configuration.*
+import com.sdk.platform.apis.configuration.*
 
 
 
@@ -41,6 +43,7 @@ class ConfigurationDataManagerClass(val config: PlatformConfig, val unauthorized
         )
         return retrofitHttpClient?.initializeRestClient(ConfigurationApiList::class.java) as? ConfigurationApiList
     }
+    
     
     
     
@@ -167,6 +170,18 @@ class ConfigurationDataManagerClass(val config: PlatformConfig, val unauthorized
     }
     
     
+    suspend fun updateLevelIntegration(id: String, level: String,body: UpdateIntegrationLevelRequest)
+    : Deferred<Response<IntegrationLevel>>? {
+        
+        return if (config.oauthClient.isAccessTokenValid()) {
+            configurationApiList?.updateLevelIntegration(
+        companyId = config.companyId, id = id, level = level, body = body)
+        } else {
+            null
+        } 
+    }
+    
+    
     suspend fun getIntegrationByLevelId(id: String, level: String, uid: String)
     : Deferred<Response<IntegrationLevel>>? {
         
@@ -191,24 +206,12 @@ class ConfigurationDataManagerClass(val config: PlatformConfig, val unauthorized
     }
     
     
-    suspend fun getLevelActiveIntegrations(id: String, level: String, uid: String, permission: String?=null)
+    suspend fun getLevelActiveIntegrations(id: String, level: String, uid: String)
     : Deferred<Response<OptedStoreIntegration>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             configurationApiList?.getLevelActiveIntegrations(
-        companyId = config.companyId, id = id, level = level, uid = uid, permission = permission )
-        } else {
-            null
-        } 
-    }
-    
-    
-    suspend fun updateLevelIntegration(id: String, level: String,body: UpdateIntegrationLevelRequest)
-    : Deferred<Response<IntegrationLevel>>? {
-        
-        return if (config.oauthClient.isAccessTokenValid()) {
-            configurationApiList?.updateLevelIntegration(
-        companyId = config.companyId, id = id, level = level, body = body)
+        companyId = config.companyId, id = id, level = level, uid = uid )
         } else {
             null
         } 
@@ -335,6 +338,16 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
     : Deferred<Response<AppFeature>>? {
         return if (config.oauthClient.isAccessTokenValid()) {
                 configurationApiList?.updateAppFeatures(companyId = config.companyId , applicationId = applicationId , body = body)
+        } else {
+            null
+        }
+    }
+    
+    
+    suspend fun modifyAppFeatures(body: AppFeatureRequest)
+    : Deferred<Response<AppFeature>>? {
+        return if (config.oauthClient.isAccessTokenValid()) {
+                configurationApiList?.modifyAppFeatures(companyId = config.companyId , applicationId = applicationId , body = body)
         } else {
             null
         }

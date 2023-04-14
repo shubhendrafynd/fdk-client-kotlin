@@ -1,8 +1,14 @@
 package com.sdk.platform
 
+import com.sdk.common.HttpClient
 import com.sdk.platform.datamanager.*
 
 class PlatformClient(val config:PlatformConfig, val unauthorizedAction: ((url: String, responseCode: Int) -> Unit)? = null) {
+
+    init {
+        HttpClient.reset()
+    }
+
     
     val common by lazy { CommonDataManagerClass(config, unauthorizedAction)}
     
@@ -27,8 +33,6 @@ class PlatformClient(val config:PlatformConfig, val unauthorizedAction: ((url: S
     val companyProfile by lazy { CompanyProfileDataManagerClass(config, unauthorizedAction)}
     
     val fileStorage by lazy { FileStorageDataManagerClass(config, unauthorizedAction)}
-    
-    val share by lazy { ShareDataManagerClass(config, unauthorizedAction)}
     
     val inventory by lazy { InventoryDataManagerClass(config, unauthorizedAction)}
     
@@ -77,8 +81,6 @@ class PlatformClient(val config:PlatformConfig, val unauthorizedAction: ((url: S
     val companyProfile by lazy { this@PlatformClient.companyProfile.ApplicationClient(applicationId,config)}
     
     val fileStorage by lazy { this@PlatformClient.fileStorage.ApplicationClient(applicationId,config)}
-    
-    val share by lazy { this@PlatformClient.share.ApplicationClient(applicationId,config)}
     
     val inventory by lazy { this@PlatformClient.inventory.ApplicationClient(applicationId,config)}
     
