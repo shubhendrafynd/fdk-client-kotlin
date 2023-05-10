@@ -36,7 +36,7 @@ Get a list of customers
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getCustomers(q: q, pageSize: pageSize, pageNo: pageNo).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.getCustomers(q: q, pageSize: pageSize, pageNo: pageNo).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -153,7 +153,7 @@ Search an existing user.
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.searchUsers(q: q).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.searchUsers(q: q).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -255,7 +255,7 @@ Create user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.createUser(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.createUser(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -356,7 +356,7 @@ Block/Unblock user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.blockOrUnblockUsers(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.blockOrUnblockUsers(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -417,7 +417,7 @@ archive user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.archiveUser(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.archiveUser(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -478,7 +478,7 @@ undelete user who deleted from application and have not elapsed the platform con
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.unDeleteUser(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.unDeleteUser(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -539,7 +539,7 @@ Update user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.updateUser(userId: userId, body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.updateUser(userId: userId, body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -641,7 +641,7 @@ Create user session
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.createUserSession(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.createUserSession(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -708,7 +708,7 @@ Delete a session for a user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.deleteSession(id: id, sessionId: sessionId, reason: reason).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.deleteSession(id: id, sessionId: sessionId, reason: reason).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -783,7 +783,7 @@ Get a list of all session with info for a user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getActiveSessions(id: id).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.getActiveSessions(id: id).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -856,7 +856,7 @@ Delete a list of all session for a user
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.deleteActiveSessions(id: id, reason: reason).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.deleteActiveSessions(id: id, reason: reason).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -930,7 +930,7 @@ Get platform configurations
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getPlatformConfig().safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.getPlatformConfig().safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -981,7 +981,8 @@ Success. Returns a JSON object containing the all the platform configurations. R
   "forgot_password": true,
   "login": {
     "password": true,
-    "otp": true
+    "otp": true,
+    "voice_otp": false
   },
   "skip_captcha": false,
   "display": "Fynd",
@@ -1066,7 +1067,7 @@ Update platform configurations
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.updatePlatformConfig(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.updatePlatformConfig(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1121,7 +1122,8 @@ Success. Returns a JSON object with the updated platform configurations. Refer `
   "forgot_password": true,
   "login": {
     "password": true,
-    "otp": true
+    "otp": true,
+    "voice_otp": false
   },
   "skip_captcha": false,
   "display": "Fynd",
@@ -1206,7 +1208,7 @@ Create an User Group
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.createUserGroup(body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.createUserGroup(body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1277,7 +1279,7 @@ Get User Groups mathcing criteria
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getUserGroups(pageNo: pageNo, pageSize: pageSize, name: name, status: status, groupUid: groupUid).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.getUserGroups(pageNo: pageNo, pageSize: pageSize, name: name, status: status, groupUid: groupUid).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1377,7 +1379,7 @@ Update an User Group
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.updateUserGroup(groupId: groupId, body: body).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.updateUserGroup(groupId: groupId, body: body).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1449,7 +1451,7 @@ Get an User Group by Id
 
 
 ```kotlin
-client.application("<APPLICATION_ID>").user.getUserGroupById(groupId: groupId).safeAwait{ response, error->
+platformClient.application("<APPLICATION_ID>").user.getUserGroupById(groupId: groupId).safeAwait{ response, error->
     response?.let{
       // Use response
     } ->
@@ -1695,6 +1697,7 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | androidHash | String? |  yes  |  |
  | force | String? |  yes  |  |
  | captchaCode | String? |  yes  |  |
+ | type | String? |  yes  |  |
 
 ---
 
@@ -1810,6 +1813,7 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | captchaCode | String? |  yes  |  |
  | mobile | String? |  yes  |  |
  | androidHash | String? |  yes  |  |
+ | type | String? |  yes  |  |
 
 ---
 
@@ -2543,6 +2547,7 @@ Success. User Group details. `UserGroupResponseSchema` for more details.
  | ---------- | ---- | -------- | ----------- |
  | password | Boolean? |  yes  |  |
  | otp | Boolean? |  yes  |  |
+ | voiceOtp | Boolean? |  yes  |  |
 
 ---
 
