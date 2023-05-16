@@ -65,37 +65,21 @@ interface OrderApiList {
     fun upsertJioCode(@Path("company_id") companyId: String,@Body body: JioCodeUpsertPayload)
     : Deferred<Response<JioCodeUpsertResponse>>
     
-    @GET ("/service/platform/orders/v1.0/company/{company_id}/bulk-action/invoice")
-    fun getBulkInvoice(@Path("company_id") companyId: String, @Query("batch_id") batchId: String, @Query("doc_type") docType: String)
-    : Deferred<Response<BulkInvoicingResponse>>
-    
-    @GET ("/service/platform/orders/v1.0/company/{company_id}/invoice-label-external")
-    fun getBulkInvoiceLabel(@Path("company_id") companyId: String, @Query("batch_id") batchId: String)
-    : Deferred<Response<BulkInvoiceLabelResponse>>
-    
     @GET ("/service/platform/orders/v1.0/company/{company_id}/generate/file")
-    fun getBulkShipmentExcelFile(@Path("company_id") companyId: String, @Query("lane") lane: String?, @Query("search_type") searchType: String?, @Query("search_id") searchId: String?, @Query("from_date") fromDate: String?, @Query("to_date") toDate: String?, @Query("dp_ids") dpIds: String?, @Query("ordering_company_id") orderingCompanyId: String?, @Query("stores") stores: String?, @Query("sales_channel") salesChannel: String?, @Query("request_by_ext") requestByExt: String?, @Query("page_no") pageNo: Int?, @Query("page_size") pageSize: Int?, @Query("customer_id") customerId: String?, @Query("is_priority_sort") isPrioritySort: Boolean?)
+    fun getBulkShipmentExcelFile(@Path("company_id") companyId: String, @Query("sales_channels") salesChannels: String?, @Query("dp_ids") dpIds: String?, @Query("from_date") fromDate: String?, @Query("to_date") toDate: String?, @Query("stores") stores: String?, @Query("tags") tags: String?, @Query("bag_status") bagStatus: String?, @Query("payment_methods") paymentMethods: String?, @Query("file_type") fileType: String?, @Query("time_to_dispatch") timeToDispatch: Int?, @Query("page_no") pageNo: Int?, @Query("page_size") pageSize: Int?)
     : Deferred<Response<FileResponse>>
     
-    @GET ("/service/platform/orders/v1.0/company/{company_id}/bulk-action/listing")
-    fun getBulkList(@Path("company_id") companyId: String, @Query("lane") lane: String?, @Query("search_type") searchType: String?, @Query("search_id") searchId: String?, @Query("from_date") fromDate: String?, @Query("to_date") toDate: String?, @Query("dp_ids") dpIds: String?, @Query("ordering_company_id") orderingCompanyId: String?, @Query("stores") stores: String?, @Query("sales_channel") salesChannel: String?, @Query("request_by_ext") requestByExt: String?, @Query("page_no") pageNo: Int?, @Query("page_size") pageSize: Int?, @Query("customer_id") customerId: String?, @Query("is_priority_sort") isPrioritySort: Boolean?)
-    : Deferred<Response<BulkListingResponse>>
+    @GET ("/service/platform/orders/v1.0/company/{company_id}/bulk-action/get-seller-templates")
+    fun getBulkActionTemplate(@Path("company_id") companyId: String)
+    : Deferred<Response<BulkActionTemplateResponse>>
     
-    @GET ("/service/platform/orders/v1.0/company/{company_id}/bulk-action-failed-report/")
-    fun getBulkActionFailedReport(@Path("company_id") companyId: String, @Query("batch_id") batchId: String, @Query("report_type") reportType: String?)
+    @GET ("/service/platform/orders/v1.0/company/{company_id}/bulk-action/download-seller-templates")
+    fun downloadBulkActionTemplate(@Path("company_id") companyId: String, @Query("template_slug") templateSlug: String?)
     : Deferred<Response<FileResponse>>
     
     @GET ("/service/platform/orders/v1.0/company/{company_id}/shipments/{shipment_id}/bags/{bag_id}/state/{state}/reasons")
     fun getShipmentReasons(@Path("company_id") companyId: String, @Path("shipment_id") shipmentId: String, @Path("bag_id") bagId: String, @Path("state") state: String)
     : Deferred<Response<PlatformShipmentReasonsResponse>>
-    
-    @POST ("/service/platform/orders/v2.0/company/{company_id}/bulk-action/")
-    fun bulkActionProcessXlsxFile(@Path("company_id") companyId: String,@Body body: BulkActionPayload)
-    : Deferred<Response<BulkActionResponse>>
-    
-    @GET ("/service/platform/orders/v2.0/company/{company_id}/bulk-action/{batch_id}")
-    fun bulkActionDetails(@Path("company_id") companyId: String, @Path("batch_id") batchId: String)
-    : Deferred<Response<BulkActionDetailsResponse>>
     
     @GET ("/service/platform/orders/v1.0/company/{company_id}/bag-details/")
     fun getBagById(@Path("company_id") companyId: String, @Query("bag_id") bagId: String?, @Query("channel_bag_id") channelBagId: String?, @Query("channel_id") channelId: String?)
