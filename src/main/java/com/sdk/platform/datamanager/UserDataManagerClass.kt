@@ -39,7 +39,8 @@ class UserDataManagerClass(val config: PlatformConfig, val unauthorizedAction: (
             baseUrl = config.domain,
             interceptorList = interceptorMap,
             namespace = "PlatformUser",
-            persistentCookieStore = config.persistentCookieStore
+            persistentCookieStore = config.persistentCookieStore,
+            certPublicKey = config.certPublicKey,
         )
         return retrofitHttpClient?.initializeRestClient(UserApiList::class.java) as? UserApiList
     }
@@ -76,7 +77,7 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
     }
     
     
-    suspend fun searchUsers(q: String?=null)
+    suspend fun searchUsers(q: HashMap<String,Any>?=null)
     : Deferred<Response<UserSearchResponseSchema>>? {
         return if (config.oauthClient.isAccessTokenValid()) {
                 userApiList?.searchUsers(companyId = config.companyId , applicationId = applicationId , q = q )

@@ -39,7 +39,8 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
             baseUrl = config.domain,
             interceptorList = interceptorMap,
             namespace = "PlatformOrder",
-            persistentCookieStore = config.persistentCookieStore
+            persistentCookieStore = config.persistentCookieStore,
+            certPublicKey = config.certPublicKey,
         )
         return retrofitHttpClient?.initializeRestClient(OrderApiList::class.java) as? OrderApiList
     }
@@ -324,12 +325,12 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun click2Call(caller: String, receiver: String, bagId: String, callingTo: String?=null, callerId: String?=null)
+    suspend fun click2Call(caller: String, receiver: String, bagId: String, callerId: String?=null, method: String?=null)
     : Deferred<Response<Click2CallResponse>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             orderApiList?.click2Call(
-        caller = caller, receiver = receiver, bagId = bagId, callingTo = callingTo, callerId = callerId, companyId = config.companyId )
+        caller = caller, receiver = receiver, bagId = bagId, callerId = callerId, method = method, companyId = config.companyId )
         } else {
             null
         } 
@@ -384,24 +385,24 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun getShipmentHistory(shipmentId: String?=null, bagId: Int?=null)
-    : Deferred<Response<ShipmentHistoryResponse>>? {
-        
-        return if (config.oauthClient.isAccessTokenValid()) {
-            orderApiList?.getShipmentHistory(
-        companyId = config.companyId, shipmentId = shipmentId, bagId = bagId )
-        } else {
-            null
-        } 
-    }
-    
-    
     suspend fun postShipmentHistory(body: PostShipmentHistory)
     : Deferred<Response<ShipmentHistoryResponse>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             orderApiList?.postShipmentHistory(
         companyId = config.companyId, body = body)
+        } else {
+            null
+        } 
+    }
+    
+    
+    suspend fun getShipmentHistory(shipmentId: Int?=null, bagId: Int?=null)
+    : Deferred<Response<ShipmentHistoryResponse>>? {
+        
+        return if (config.oauthClient.isAccessTokenValid()) {
+            orderApiList?.getShipmentHistory(
+        companyId = config.companyId, shipmentId = shipmentId, bagId = bagId )
         } else {
             null
         } 
@@ -432,7 +433,7 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun updatePackagingDimensions(body: CreateOrderPayload)
+    suspend fun updatePackagingDimensions(body: UpdatePackagingDimensionsPayload)
     : Deferred<Response<CreateOrderResponse>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
@@ -456,24 +457,24 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun getChannelConfig()
-    : Deferred<Response<CreateChannelConfigData>>? {
-        
-        return if (config.oauthClient.isAccessTokenValid()) {
-            orderApiList?.getChannelConfig(
-        companyId = config.companyId )
-        } else {
-            null
-        } 
-    }
-    
-    
     suspend fun createChannelConfig(body: CreateChannelConfigData)
     : Deferred<Response<CreateChannelConfigResponse>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             orderApiList?.createChannelConfig(
         companyId = config.companyId, body = body)
+        } else {
+            null
+        } 
+    }
+    
+    
+    suspend fun getChannelConfig()
+    : Deferred<Response<CreateChannelConfigData>>? {
+        
+        return if (config.oauthClient.isAccessTokenValid()) {
+            orderApiList?.getChannelConfig(
+        companyId = config.companyId )
         } else {
             null
         } 
