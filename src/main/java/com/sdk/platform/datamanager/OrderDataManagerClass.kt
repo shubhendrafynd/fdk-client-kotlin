@@ -421,20 +421,8 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun platformManualAssignDPToShipment(body: ManualAssignDPToShipment)
-    : Deferred<Response<ManualAssignDPToShipmentResponse>>? {
-        
-        return if (config.oauthClient.isAccessTokenValid()) {
-            orderApiList?.platformManualAssignDPToShipment(
-        companyId = config.companyId, body = body)
-        } else {
-            null
-        } 
-    }
-    
-    
     suspend fun updatePackagingDimensions(body: UpdatePackagingDimensionsPayload)
-    : Deferred<Response<CreateOrderResponse>>? {
+    : Deferred<Response<UpdatePackagingDimensionsResponse>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
             orderApiList?.updatePackagingDimensions(
@@ -517,11 +505,11 @@ class OrderDataManagerClass(val config: PlatformConfig, val unauthorizedAction: 
     }
     
     
-    suspend fun sendSmsNinjaPlatform()
-    : Deferred<Response<OrderStatusResult>>? {
+    suspend fun getStateTransitionMap()
+    : Deferred<Response<BagStateTransitionMap>>? {
         
         return if (config.oauthClient.isAccessTokenValid()) {
-            orderApiList?.sendSmsNinjaPlatform(
+            orderApiList?.getStateTransitionMap(
         companyId = config.companyId )
         } else {
             null
@@ -640,7 +628,6 @@ inner class ApplicationClient(val applicationId:String,val config: PlatformConfi
             null
         }
     }
-    
     
     
     

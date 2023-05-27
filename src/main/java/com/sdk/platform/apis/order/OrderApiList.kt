@@ -145,13 +145,9 @@ interface OrderApiList {
     fun sendSmsNinja(@Path("company_id") companyId: String,@Body body: SendSmsPayload)
     : Deferred<Response<OrderStatusResult>>
     
-    @POST ("/service/platform/order-manage/v1.0/company/{company_id}/oms/manual-place-shipment")
-    fun platformManualAssignDPToShipment(@Path("company_id") companyId: String,@Body body: ManualAssignDPToShipment)
-    : Deferred<Response<ManualAssignDPToShipmentResponse>>
-    
     @POST ("/service/platform/order-manage/v1.0/company/{company_id}/update-packaging-dimension")
     fun updatePackagingDimensions(@Path("company_id") companyId: String,@Body body: UpdatePackagingDimensionsPayload)
-    : Deferred<Response<CreateOrderResponse>>
+    : Deferred<Response<UpdatePackagingDimensionsResponse>>
     
     @POST ("/service/platform/order-manage/v1.0/company/{company_id}/create-order")
     fun createOrder(@Path("company_id") companyId: String,@Body body: CreateOrderAPI)
@@ -178,8 +174,8 @@ interface OrderApiList {
     : Deferred<Response<OrderStatusResult>>
     
     @GET ("/service/platform/order-manage/v1.0/company/{company_id}/bag/state/transition")
-    fun sendSmsNinjaPlatform(@Path("company_id") companyId: String)
-    : Deferred<Response<OrderStatusResult>>
+    fun getStateTransitionMap(@Path("company_id") companyId: String)
+    : Deferred<Response<BagStateTransitionMap>>
     
     @POST ("/service/platform/order-manage/v1.0/company/{company_id}/customer-credit-balance")
     fun fetchCreditBalanceDetail(@Path("company_id") companyId: String,@Body body: FetchCreditBalanceRequestPayload)
